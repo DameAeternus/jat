@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Archived Job Applications</title>
+</head>
+
+<body>
+
+<h1>Archived Job Applications</h1>
+
+<table border="1">
+  <thead>
+  <tr>
+    <th>ID</th>
+    <th>User</th>
+    <th>Company Name</th>
+    <th>Job Position</th>
+    <th>Actions</th>
+  </tr>
+  </thead>
+  <tbody>
+  <!-- Loop through archivedApplications and display details -->
+  <tr th:each="jobApplication : ${archivedApplications}">
+    <td th:text="${jobApplication.id}"></td>
+    <td th:text="${jobApplication.user.username}"></td>
+    <td th:text="${jobApplication.companyName}"></td>
+    <td th:text="${jobApplication.jobPosition}"></td>
+    <td>
+      <!-- Link to view job application details -->
+      <a th:href="@{/api/job-applications/{id}(id=${jobApplication.id})}">Details</a>
+
+      <!-- Button to unarchive job application -->
+      <form th:action="@{/api/job-applications/{id}/unarchive(id=${jobApplication.id})}" method="post">
+        <input type="hidden" name="_method" value="PATCH" />
+        <button type="submit">Unarchive</button>
+      </form>
+
+      <!-- Add more actions as needed -->
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+<!-- Link to view active job applications -->
+<a th:href="@{/api/job-applications}">View Active Job Applications</a>
+
+</body>
+
+</html>

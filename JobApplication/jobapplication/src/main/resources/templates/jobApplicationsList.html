@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Active Job Applications</title>
+</head>
+
+<body>
+
+<h1>Active Job Applications</h1>
+
+<table border="1">
+  <thead>
+  <tr>
+    <th>ID</th>
+    <th>User</th>
+    <th>Company Name</th>
+    <th>Job Position</th>
+    <th>Application Status</th>
+    <th>Actions</th>
+  </tr>
+  </thead>
+  <tbody>
+  <!-- Loop through jobApplications and display details -->
+  <tr th:each="jobApplication : ${jobApplications}">
+    <td th:text="${jobApplication.id}"></td>
+    <td th:text="${jobApplication.user.username}"></td>
+    <td th:text="${jobApplication.companyName}"></td>
+    <td th:text="${jobApplication.jobPosition}"></td>
+    <td th:text="${jobApplication.status}"></td>
+    <td>
+      <!-- Link to view job application details -->
+      <a th:href="@{/api/job-applications/{id}(id=${jobApplication.id})}">Details</a>
+
+      <!-- Button to archive job application -->
+      <form th:action="@{/api/job-applications/{id}(id=${jobApplication.id})}" method="post">
+        <input type="hidden" name="_method" value="DELETE" />
+        <button type="submit">Archive</button>
+      </form>
+
+      <!-- Add more actions as needed -->
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+<!-- Link to create a new job application -->
+<a th:href="@{/api/job-applications/form}">Create New Job Application</a>
+
+</body>
+
+</html>
